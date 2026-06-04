@@ -1,0 +1,7 @@
+name = "daily-checkin"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+[[kv_namespaces]]
+binding = "CHECKIN_KV"
+id = "创建后填入你的namespace id"
