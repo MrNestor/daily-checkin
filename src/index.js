@@ -66,9 +66,10 @@ export default {
 // ---------- 工具函数 ----------
 
 function ds(d) {
-  return d.getFullYear() + '-' +
-    String(d.getMonth() + 1).padStart(2, '0') + '-' +
-    String(d.getDate()).padStart(2, '0');
+  // 直接用 Intl 拿北京时间的年月日，en-CA 输出 YYYY-MM-DD 格式
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Shanghai'
+  }).format(d);
 }
 
 function jsonResponse(obj, status = 200) {
@@ -286,8 +287,10 @@ const HTML_PAGE = `<!DOCTYPE html>
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user: uid })
       });
-      var result = await r.json();
-      render(result);
+      await r.json();
+      // 重新拉取全量数据，确保前后端一致
+      var allData = await fetchData();
+      render(uid, allData);   // uid 作为 checkedUser 触发动画，allData 更新页面
     }
 
     function togH(uid) {
